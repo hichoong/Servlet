@@ -14,12 +14,30 @@ public class MyServlet extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		//서블릿 초기화 설정?
 		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/plain; charset=UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
 		String temp = req.getParameter("name");
 		System.out.println(temp);
 		//response 통해서 응답하기
 		PrintWriter out = resp.getWriter();
-		out.println("zzz");
+		out.println("<!DOCTYPE HTML>");
+		out.println("<html>");
+		
+		out.println("<head>");
+		out.println("<style>");
+		out.println("div{background-color : red}");
+		out.println("</style>");
+		out.println("</head>");
+		
+		out.println("<body>");
+		out.println("<div>"+ temp +"</div>");
+		out.println("</body>");
+		
+		
+		out.println("</html>");
+	
 	}
 }
