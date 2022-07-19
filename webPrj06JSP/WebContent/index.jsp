@@ -27,6 +27,9 @@
 		public void method01() {
 		System.out.println("method01() called... ");
 	}
+		private int age;
+		private String name;
+		
 	%>	
 	<%
 		method01();
