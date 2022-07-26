@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String alertMsg = (String)session.getAttribute("joinUsccess");
+	session.removeAttribute("joinUsccess");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,5 +20,13 @@
 		 <br>
 		 <input type="submit" value="로그인">
 	</form> 
+	<script>
+
+	<%if(alertMsg != null) {%>
+			alert('<%=alertMsg%>');
+			<%}%>
+	
+		
+	</script>
 </body>
 </html>

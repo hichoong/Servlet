@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
-
+import com.kh.common.JDBCTemplate;
 import com.kh.user.dto.UserDto;
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns = "/user/login")
@@ -33,14 +32,7 @@ public class UserLoginServlet extends HttpServlet{
 			//3. DB 조회 (아이디, 패스워드 전달받아서 조회)
 			
 				//1) 커넥션 얻기
-				// 드라이버 준비
-				String driver = "oracle.jdbc.driver.OracleDriver";
-				// url, id, pwd 
-				String url = "jdbc:oracle:thin:@localhost:1521:xe";
-				String dbId= "C##KH";
-				String dbPwd = "KH";
-				Class.forName(driver);				
-				Connection conn = DriverManager.getConnection(url, dbId, dbPwd);
+				Connection conn = JDBCTemplate.getConnection();
 				//2) SQL 준비
 				String sql = "SELECT NO, ID, NICK, ENROLL_DATE FROM MEMBER WHERE ID = ? AND PWD = ? AND QUIT_YN = 'N'";
 				//3) SQL 담을 객체 준비

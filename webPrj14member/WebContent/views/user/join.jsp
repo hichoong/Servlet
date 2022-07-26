@@ -8,5 +8,27 @@
 </head>
 <body>
 	<h1>회원가입</h1>
+	
+	<form action= "/webPrj14/member/join" method="post">
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="userId" ></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="userPwd" ></td>
+			</tr>
+			<tr>
+				<td>닉네임</td>
+				<td><input type="text" name="userNick" ></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="회원가입"></td>
+			</tr>
+		</table>
+		
+		
+	</form>
 </body>
 </html>
