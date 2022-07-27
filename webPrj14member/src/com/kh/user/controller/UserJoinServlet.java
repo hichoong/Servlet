@@ -20,6 +20,7 @@ public class UserJoinServlet extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Connection conn = null;
 		try {
 			//회원가입
 			
@@ -37,7 +38,7 @@ public class UserJoinServlet extends HttpServlet{
 			//디비에 insert
 			
 			//커넥션준비 (드라이버, url, id, pwd)
-			Connection conn = JDBCTemplate.getConnection();
+			conn = JDBCTemplate.getConnection();
 			//sql 준비
 			String sql = "INSERT INTO MEMBER (NO, ID, PWD, NICK) VALUES (SEQ_MEMBER_NO.NEXTVAL, ?, ?, ?)";
 			//DB에 insert
@@ -51,13 +52,15 @@ public class UserJoinServlet extends HttpServlet{
 				//결과에 따른 로직 처리
 				//insert 성공 여부에 따라, 페이지 이동시키기
 				if(result == 1) {
-					//회원가입 성공
+					//회원가입 성공 (커밋)
+					JDBCTemplate.commit(conn);
 					//로그인 페이지로 넘기기
 					HttpSession session = req.getSession();
 					session.setAttribute("joinUsccess","회원 가입 성공!!!");
 					resp.sendRedirect("/webPrj14/views/user/login.jsp");
 				}else {
 					//회원가입 실패
+					JDBCTemplate.rollback(conn);
 					//회원가입 실패 페이지로 보내기(메세지 담아서)
 					req.setAttribute("msg", "회원가입 실패!!!");
 					req.getRequestDispatcher("/views/common/msg.jsp").forward(req, resp);
@@ -66,6 +69,7 @@ public class UserJoinServlet extends HttpServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("회원가입 예외 발생 !!!");
+			JDBCTemplate.rollback(conn);
 			HttpSession session = req.getSession();
 			session.setAttribute("msg", "회원가입 실패!!!");
 			//req.getRequestDispatcher("/views/common/error.jsp").forward(req, resp);
