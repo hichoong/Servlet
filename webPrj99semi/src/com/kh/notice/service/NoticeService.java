@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import static com.kh.common.JDBCTemplate.*;
-import com.kh.notice.repository.noticeDao;
+import com.kh.notice.repository.NoticeDao;
 import com.kh.notice.vo.NoticeVo;
 
 public class NoticeService {
@@ -16,7 +16,7 @@ public class NoticeService {
 		try {
 			conn = getConnection();
 			//DAO 호출
-			voList = new noticeDao().selectList(conn);			
+			voList = new NoticeDao().selectList(conn);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -33,7 +33,7 @@ public class NoticeService {
 		try {
 			conn = getConnection();			
 			//DAO 호출 -> 결과 리턴
-			result = new noticeDao().insertNotice(conn, vo);
+			result = new NoticeDao().insertNotice(conn, vo);
 			if(result == 1 ) {
 				commit(conn);
 			}else {
@@ -47,5 +47,69 @@ public class NoticeService {
 		}
 		return result;
 	}
-
+	
+	//조회수 증가
+	public int increaseNotice(String num) {
+		
+		Connection conn = null;
+		int result = 0;
+		try {
+			conn = getConnection();
+			//DAO 호출
+			result = new NoticeDao().increaseNotice(conn, num);
+			
+			if(result == 1 ) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+	
+	//공지사항 조회
+	public NoticeVo selectOne(String num) {
+		
+		Connection conn = null;
+		NoticeVo vo = null;
+		
+		try {
+			conn = getConnection();
+			//DAO 호출
+			vo = new NoticeDao().selectOne(conn, num);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(conn);
+		}
+		return vo;
+	}
+	
+	//공지사항 삭제
+	public int delete(String num) {
+		Connection conn = null;
+		int result = 0;
+		try {
+			conn = getConnection();
+			//DAO 호출	
+			result = new NoticeDao().delete(conn, num);
+			if(result == 1) {
+				commit(conn);
+			}else {
+				rollback(conn);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback(conn);
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
 }
