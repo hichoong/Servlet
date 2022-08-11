@@ -45,7 +45,7 @@
     <div id="outer">
         <br>
         <h1>공지사항 수정하기</h1>
-        <form action="/notice/edit" method="post">
+        <form action="<%=contextPath%>/notice/edit" method="post">
         	<input type="hidden" name="num" value="<%=vo.getNo()%>">
             <input type="hidden" name="writerNo" value="<%=loginMember.getNo()%>">
             <div id="section">
@@ -56,7 +56,7 @@
                 <textarea name="content" id="" cols="107" rows="8" style="resize: none;" required><%=vo.getContent()%></textarea>
             </div>
             <div id="div-btn-area">
-                <input type="submit" value="수정하기">
+                <input type="submit" value="수정하기" >
                 <input type="reset" value="초기화">
                 <input type="button" value="뒤로가기" onclick="history.go(-1)">
             </div>

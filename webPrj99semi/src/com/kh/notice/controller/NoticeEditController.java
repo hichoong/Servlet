@@ -34,15 +34,29 @@ public class NoticeEditController extends HttpServlet{
 	//공지사항 수정하기 작성
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		req.setCharacterEncoding("UTF-8");
 		//데이터 꺼내기 
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
 		String num = req.getParameter("num");
 		//데이터 뭉치기
-		
+		NoticeVo vo = new NoticeVo();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setNo(num);
 		//서비스 호출
-		
+		int result = new NoticeService().edit(vo); //update 쿼리 
 		//결과에 따라 화면 선택
+		if (result == 1) {
+			//성공 -> 상세보기 페이지
+			req.getSession().setAttribute("alertMsg", "공지사항 작성 성공!");
+			resp.sendRedirect(req.getContextPath() + "/notice/detail?num=" + vo.getNo());
+			
+		}else {
+			//실패 -> 에러페이지
+			req.setAttribute("errorMsg", "공지사항 수정 실패 !!!");
+			req.getRequestDispatcher("/views/error/errorPage.jsp").forward(req, resp);
+		}
+		
 	}
 }

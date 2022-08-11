@@ -58,8 +58,11 @@
 			
 			
             <!-- 현재 로그인한 사용자가 해당 글을 쓴 본인일 경우 -->
-            <a href="<%=contextPath%>/notice/edit?num=<%=vo.getNo()%>" class="btn btn-sm btn-warning">수정하기</a>
-            <a href="<%=contextPath%>/notice/delete?num=<%=vo.getNo()%>" class="btn btn-sm btn-danger">삭제하기</a>
+           
+            	 <%if (loginMember !=null && vo.getWriter().equals(loginMember.getName())) { %>
+            		 <a href="<%=contextPath%>/notice/edit?num=<%=vo.getNo()%>" class="btn btn-sm btn-warning">수정하기</a>
+                     <a href="<%=contextPath%>/notice/delete?num=<%=vo.getNo()%>" class="btn btn-sm btn-danger">삭제하기</a>
+            	 <%}%>
         </div>        
     </div>
 
