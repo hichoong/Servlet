@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberMapper"> 
+	
+	<!--
+		* DML
+		<insert | update | delete id="식별자" [parameterType="패키지명.클래스명" || "별칭"]>
+			SQL작성
+		</insert | update | delete>
+		
+		* DQL(SELECT)
+		<select id="식별자" [parameterType="패키지명.클래스명" || "별칭"] 
+				resultType="패키지명.클래스명" || "별칭" 
+				또는 
+				resultMap="리절트맵식별자" >
+		
+					SQL작성
+		
+		</select>
+	
+	  -->
+	
+	<!-- <insert id="join" parameterType="com.kh.member.vo.MemberVo"> -->
+	<insert id="join" parameterType="mvo" >
+		INSERT INTO TB_USER
+		(ID,
+		PWD
+		)
+		VALUES 
+		(
+		 #{id}, 
+		 #{pwd}
+		 )
+	</insert>
+	<!--#{~~} 안에 들어오는 값 
+				field		<		vo 	객체
+				var name	<		var	값
+				key			<		map	맵
+	
+	 -->
+	 <select id="login" parameterType="mvo" resultMap="memberResult">
+	 	SELECT ID,PWD 
+	 	FROM TB_USER 
+	 	WHERE ID = #{id} 
+	 	AND PWD = #{pwd}
+	 </select>
+	 
+	 <resultMap type="mvo" id="memberResult">
+	 	<result column="ID" property="id" />
+	 	<result column="PWD" property="pwd" />
+	 </resultMap>
+	 
+	 <!--  
+		 <resultMap type="조회결과를 담아줄 객체 타입" id="식별자">
+		 	<result column="rs에서 가져올 칼럼명" property="객체의 필드명" />
+		 	<result column="rs에서 가져올 칼럼명" property="객체의 필드명" />
+		 </resultMap>
+	 
+	 -->
+	 
+	 <!--
+	 	ResultSet으로 부터 조회된 칼럼값을 객체의 필드에 맵핑해줌
+	 	
+	 	ResultSet rs = pstmt.executeQuery();
+	 	
+	 	String id = rs.getString("ID");
+	 	String pwd = rs.getString("PWD");
+	 	
+	 	MemberVo loginMember = new MemberVo();
+	 	loginMember.setUserId(id);
+	 	loginMember.setUserPwd(pwd);
+	   -->
+	 
+</mapper>
+
+
